@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legal Case Management System</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="registration.html">Registration</a></li>
+    </ul>
+  </nav>
+
+ 
+
+<main>
+    <section class="case-form">
+        <h2>Add New Case</h2>
+        <form id="case-form">
+            <label for="case-name">Case Name:</label>
+            <input type="text" id="case-name" name="case-name" required>
+
+            <label for="case-type">Case Type:</label>
+            <select id="case-type" name="case-type" required>
+                <option value="civil">Civil</option>
+                <option value="criminal">Criminal</option>
+                <option value="family">Family</option>
+            </select>
+
+            <label for="case-description">Description:</label>
+            <textarea id="case-description" name="case-description" rows="4" required></textarea>
+
+            <button type="button" onclick="addCase()">Add Case</button>
+        </form>
+    </section>
+
+    <section class="case-list">
+        <h2>Case List</h2>
+        <ul id="case-list">
+            <!-- Display the list of cases here -->
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2023 Legal Case Management System</p>
+</footer>
+
+<script>
+    function addCase() {
+        // Get form values
+        const caseName = document.getElementById('case-name').value;
+        const caseType = document.getElementById('case-type').value;
+        const caseDescription = document.getElementById('case-description').value;
+
+        // Create a new list item
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<strong>${caseName}</strong> - ${caseType}<br>${caseDescription} <button onclick="updateCase(this)">Update</button> <button onclick="deleteCase(this)">Delete</button>`;
+
+        // Append the new item to the case list
+        document.getElementById('case-list').appendChild(listItem);
+
+        // Clear the form fields
+        document.getElementById('case-form').reset();
+    }
+
+    function deleteCase(button) {
+        // Get the parent li element and remove it
+        const listItem = button.parentNode;
+        document.getElementById('case-list').removeChild(listItem);
+    }
+
+    function updateCase(button) {
+        // Get the parent li element
+        const listItem = button.parentNode;
+
+        // Get the case information
+        const caseName = listItem.querySelector('strong').innerText;
+        const caseType = listItem.innerText.split(' - ')[1].split('\n')[0];
+        const caseDescription = listItem.innerText.split('\n')[1];
+
+        // Set the form values to the retrieved case information
+        document.getElementById('case-name').value = caseName;
+        document.getElementById('case-type').value = caseType;
+        document.getElementById('case-description').value = caseDescription;
+
+        // Remove the old list item
+        document.getElementById('case-list').removeChild(listItem);
+    }
+</script>
+
+
+</body>
+</html>
